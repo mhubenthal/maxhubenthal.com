@@ -1,5 +1,5 @@
 // ticker.js
-// (website here)
+// (TODO: ticker.js website here)
 // (c) 2014 Max Hubenthal
 // Ticker may be freely distributed under the MIT license.
 
@@ -23,10 +23,10 @@
   var tkr_ctx = tkr_canvas.getContext('2d');
 
   // Default tkr grid values
-  var tkr_gridWidth = tkr_canvas.width = 672, tkr_gridHeight = tkr_canvas.height = 122, tkr_gridUnitSize = 10, tkr_gridColor = "black", tkr_gridLineWidth = 1;
+  var tkr_gridWidth = tkr_canvas.width = 672, tkr_gridHeight = tkr_canvas.height = 122, tkr_gridUnitSize = 10, tkr_gridColor, tkr_gridLineWidth = 1;
     
   // Default tkr message values
-  var tkr_message = [], tkr_messageShapeArray = [], tkr_messagerColor = "blue", tkr_gridOffset = tkr_gridUnitSize + tkr_gridLineWidth, tkr_charOffset = 672, tkr_messageInterval = 80;
+  var tkr_message = [], tkr_messageShapeArray = [], tkr_messageColor, tkr_gridOffset = tkr_gridUnitSize + tkr_gridLineWidth, tkr_charOffset = 672, tkr_messageInterval = 60;
     
   // Default tkr run status values
   var tkr_IntervalId, tkr_isPaused = false, tkr_isForward = false, tkr_isReversed = false;
@@ -36,9 +36,7 @@
   //  Here is a good list of the available chars:
   //    http://utf8-chartable.de/unicode-utf8-table.pl?utf8=dec
   // Position [0] of each "pattern" is the width of the shape.
-  // Lowercase letters default to uppercase
-    
-    // \ !" so far
+  // Note: lowercase letters default to uppercase.
   var tkr_JSONcharShapes = {"charPatterns": [
       {"char": " ", "pattern": [3]},
       {"char": "!", "pattern": [2,6,12,18,30]},
@@ -105,32 +103,32 @@
       {"char": "^", "pattern": [4,7,12,14]},
       {"char": "_", "pattern": [5,30,31,32,33]},
       {"char": "`", "pattern": [3,6,13]},
-      {"char": "A", "pattern": [4,6,7,8,12,14,18,19,20,24,26,30,32]},
-      {"char": "B", "pattern": [4,6,7,8,12,14,18,19,20,24,26,30,31,32]},
-      {"char": "C", "pattern": [4,6,7,8,12,18,24,30,31,32]},
-      {"char": "D", "pattern": [4,8,14,18,19,20,24,26,30,31,32]},
-      {"char": "E", "pattern": [4,6,7,8,12,18,19,20,24,30,31,32]},
-      {"char": "F", "pattern": [4,6,7,8,12,18,19,20,24,30]},
-      {"char": "G", "pattern": [4,6,7,8,12,18,20,24,26,30,31,32]},
-      {"char": "H", "pattern": [4,6,8,12,14,18,19,20,24,26,30,32]},
-      {"char": "I", "pattern": [2,6,12,18,24,30]},
-      {"char": "J", "pattern": [4,8,14,20,24,26,30,31,32]},
-      {"char": "K", "pattern": [4,6,8,12,14,18,19,24,26,30,32]},
-      {"char": "L", "pattern": [4,6,12,18,24,30,31,32]},
-      {"char": "M", "pattern": [6,6,7,8,9,10,12,14,16,18,20,22,24,26,28,30,32,34]},
-      {"char": "N", "pattern": [5,6,9,12,13,15,18,20,21,24,27,30,33]},
-      {"char": "O", "pattern": [4,6,7,8,12,14,18,20,24,26,30,31,32]},
-      {"char": "P", "pattern": [4,6,7,8,12,14,18,19,20,24,30]},
-      {"char": "Q", "pattern": [4,6,7,8,12,14,18,19,20,26,32]},
-      {"char": "R", "pattern": [4,6,7,8,12,14,18,19,24,26,30,32]},
-      {"char": "S", "pattern": [4,6,7,8,12,18,19,20,26,30,31,32]},
-      {"char": "T", "pattern": [4,6,7,8,13,19,25,31]},
-      {"char": "U", "pattern": [4,6,8,12,14,18,20,24,26,30,31,32]},
-      {"char": "V", "pattern": [4,6,8,12,14,18,20,25,31]},
-      {"char": "W", "pattern": [6,6,8,10,12,14,16,18,20,22,24,26,28,30,31,32,33,34]},
-      {"char": "X", "pattern": [6,6,10,13,15,20,25,27,30,34]},
-      {"char": "Y", "pattern": [4,6,8,12,14,19,25,31]},
-      {"char": "Z", "pattern": [4,6,7,8,14,19,24,30,31,32]},
+      {"char": "a", "pattern": [4,6,7,8,12,14,18,19,20,24,26,30,32]},
+      {"char": "b", "pattern": [4,6,7,8,12,14,18,19,20,24,26,30,31,32]},
+      {"char": "c", "pattern": [4,6,7,8,12,18,24,30,31,32]},
+      {"char": "d", "pattern": [4,8,14,18,19,20,24,26,30,31,32]},
+      {"char": "e", "pattern": [4,6,7,8,12,18,19,20,24,30,31,32]},
+      {"char": "f", "pattern": [4,6,7,8,12,18,19,20,24,30]},
+      {"char": "g", "pattern": [4,6,7,8,12,18,20,24,26,30,31,32]},
+      {"char": "h", "pattern": [4,6,8,12,14,18,19,20,24,26,30,32]},
+      {"char": "i", "pattern": [2,6,12,18,24,30]},
+      {"char": "j", "pattern": [4,8,14,20,24,26,30,31,32]},
+      {"char": "k", "pattern": [4,6,8,12,14,18,19,24,26,30,32]},
+      {"char": "l", "pattern": [4,6,12,18,24,30,31,32]},
+      {"char": "m", "pattern": [6,6,7,8,9,10,12,14,16,18,20,22,24,26,28,30,32,34]},
+      {"char": "n", "pattern": [5,6,9,12,13,15,18,20,21,24,27,30,33]},
+      {"char": "o", "pattern": [4,6,7,8,12,14,18,20,24,26,30,31,32]},
+      {"char": "p", "pattern": [4,6,7,8,12,14,18,19,20,24,30]},
+      {"char": "q", "pattern": [4,6,7,8,12,14,18,19,20,26,32]},
+      {"char": "r", "pattern": [4,6,7,8,12,14,18,19,24,26,30,32]},
+      {"char": "s", "pattern": [4,6,7,8,12,18,19,20,26,30,31,32]},
+      {"char": "t", "pattern": [4,6,7,8,13,19,25,31]},
+      {"char": "u", "pattern": [4,6,8,12,14,18,20,24,26,30,31,32]},
+      {"char": "v", "pattern": [4,6,8,12,14,18,20,25,31]},
+      {"char": "w", "pattern": [6,6,8,10,12,14,16,18,20,22,24,26,28,30,31,32,33,34]},
+      {"char": "x", "pattern": [6,6,10,13,15,20,25,27,30,34]},
+      {"char": "y", "pattern": [4,6,8,12,14,19,25,31]},
+      {"char": "z", "pattern": [4,6,7,8,14,19,24,30,31,32]},
       {"char": "{", "pattern": [4,7,8,13,18,25,31,32]},
       {"char": "|", "pattern": [2,6,12,18,24,30]},
       {"char": "}", "pattern": [4,6,7,13,20,25,30,31]},
@@ -149,22 +147,22 @@
       
     // Draw vertical grid, start at 0.5 to allo for non-blurry 1px line
     for (var x = 0.5; x <= tkr_gridWidth; x++){
+      tkr_ctx.fillStyle = tkr_gridColor;
       tkr_ctx.beginPath();
       tkr_ctx.moveTo(x, 0);
       tkr_ctx.lineTo(x, tkr_gridHeight);
       tkr_ctx.closePath();
-      tkr_ctx.fillStyle = tkr_gridColor;
       tkr_ctx.stroke();
       x += tkr_gridUnitSize;
     }
       
     // Draw horizontal grid, start at 0.5 to allo for non-blurry 1px line
     for (var y = 0.5; y <= tkr_gridHeight; y++){
+      tkr_ctx.fillStyle = tkr_gridColor;
       tkr_ctx.beginPath();
       tkr_ctx.moveTo(0, y);
       tkr_ctx.lineTo(tkr_gridWidth, y);
       tkr_ctx.closePath();
-      tkr_ctx.fillStyle = tkr_gridColor;
       tkr_ctx.stroke();
       y += tkr_gridUnitSize;
     }
@@ -184,6 +182,7 @@
     // 18--19--20--21--22--23
     // 24--25--26--27--28--29
     // 30--31--32--33--34--35
+    // 36--37--38--39--40--41
     //
     this.squaresToColor = arrayOfSquaresToColor;
     this.genericShape = [[],[]];
@@ -191,8 +190,6 @@
     this.shapeArray = [[],[]];
     // Overall width of ticker
     this.reset = tkr_gridWidth;
-    // Set color
-    this.shapeColor = tkr_messagerColor;
     // Grid line width
     this.gridLineWidth = tkr_gridLineWidth;
   }
@@ -235,7 +232,7 @@
     },
 
     // Draw a shape, given a '2d' <canvas> context
-    animateShapeForward: function (canvasContext){
+    animateShapeForward: function (){
       for (var i = 0; i < this.shapeArray.length; i++){
         // Pixel is ready to cycle back to enter right of ticker
         if (this.shapeArray[i][0] < 0) {
@@ -246,12 +243,12 @@
         var tempY = this.shapeArray[i][1];
           
         // Draw shape
-        canvasContext.fillStyle = this.shapeColor;
-        canvasContext.fillRect(tempX,tempY,tkr_gridUnitSize,tkr_gridUnitSize);
+        tkr_ctx.fillStyle = tkr_messageColor;
+        tkr_ctx.fillRect(tempX,tempY,tkr_gridUnitSize,tkr_gridUnitSize);
         this.shapeArray[i][0] -= tkr_gridOffset; // Decrement x coordinate position
       }
     },
-    animateShapeBackwards: function (canvasContext){
+    animateShapeBackwards: function (){
       for (var i = 0; i < this.shapeArray.length; i++){
         // Pixel is ready to cycle back to enter right of ticker
         if (this.shapeArray[i][0] > tkr_gridWidth) {
@@ -262,8 +259,8 @@
         var tempY = this.shapeArray[i][1];
           
         // Draw shape
-        canvasContext.fillStyle = this.shapeColor;
-        canvasContext.fillRect(tempX,tempY,tkr_gridUnitSize,tkr_gridUnitSize);
+        tkr_ctx.fillStyle = tkr_messageColor;
+        tkr_ctx.fillRect(tempX,tempY,tkr_gridUnitSize,tkr_gridUnitSize);
         this.shapeArray[i][0] += tkr_gridOffset; // Decrement x coordinate position
       }
     }
@@ -271,9 +268,18 @@
 
   // Load a message array of tkr_shape objects from an array of UTF-8 codes
   function tkr_loadMessageShapeArray(newCharArray){
+    // Make sure tkr_messageShapeArray is empty
+    tkr_messageShapeArray = [];
+    // Reset the message offset
+    tkr_charOffset = 672;
+    var newShape;
     // Convert chars to tkr_shape objects and add to message array
     for(var i=0;i<newCharArray.length;i++){
-      var newShape = new tkr_shape(tkr_JSONcharShapes.charPatterns[newCharArray[i]-32].pattern);
+      // Invalid char is passed in, "!" is returned.
+      if((newCharArray[i]>94)||(newCharArray[i]<0)){
+        newShape = new tkr_shape(tkr_JSONcharShapes.charPatterns[1].pattern);
+      }
+      newShape = new tkr_shape(tkr_JSONcharShapes.charPatterns[newCharArray[i]-32].pattern);
       newShape.loadGenericShape();  // Load the generic tkr shape template
       // Load the shape, which creates an array of (x,y) coordinates
       newShape.loadShape();  
@@ -284,12 +290,12 @@
   // Draw letters from message to canvas, an array of tkr_shape objects are passed in
   function tkr_writeMessageForward(messageArray){
     for(var i=0; i<messageArray.length; i++){
-        messageArray[i].animateShapeForward(tkr_ctx);
+        messageArray[i].animateShapeForward();
     }
   }
   function tkr_writeMessageBackwards(messageArray){
     for(var i=0; i<messageArray.length; i++){
-        messageArray[i].animateShapeBackwards(tkr_ctx);
+        messageArray[i].animateShapeBackwards();
     }
   }
 
@@ -318,6 +324,7 @@
       }, tkr_messageInterval);
     }
   }
+  
   function tkr_pause(){
     clearInterval(tkr_IntervalId);
     tkr_isPaused = true;
@@ -331,6 +338,8 @@
 
   // Setters
   tkr.setMessage = function(newMessage){
+    // Make sure the array is empty
+    tkr_message = [];
     // Place array of UTF-8 codes into tkr_message
     for(var i=0;i<newMessage.length;i++){
       tkr_message[i] = newMessage.charCodeAt(i);
@@ -339,10 +348,17 @@
     tkr_loadMessageShapeArray(tkr_message);
   };
   tkr.setMessageColor = function(newMessageColor){
-    tkr_messagerColor = newMessageColor;
+    tkr_messageColor = newMessageColor;
   };
   tkr.setMessageInterval = function(newMessageInterval){
     tkr_messageInterval = newMessageInterval;
+  };
+    
+  // The below methods may break the library at this point if called.
+  // Future versions will allow for a flexible sized grid.
+  /*
+  tkr.setGridColor = function(newGridColor){
+    tkr_gridColor = newGridColor;
   };
   tkr.setGridHeight = function(newGridHeight){
     tkr_gridHeight = newGridHeight;
@@ -353,10 +369,8 @@
   tkr.setGridUnitSize = function(newGridUnitSize){
     tkr_gridUnitSize = newGridUnitSize;
   };
-  tkr.setGridColor = function(newGridColor){
-    tkr_gridColor = newGridColor;
-  };
-
+  */
+  
   // tkr controls
   tkr.playForward = function(){
     tkr_playForward();
@@ -364,13 +378,14 @@
   tkr.pause = function(){
     tkr_pause();
   };
+  // tkr.playReverse function is buggy, use/improve at your own peril!
+  /*
   tkr.playReverse = function(){
     tkr_playReverse();
   };
+  */
 
-  /*** ADD IN MORE FUN CONTROLS/SUPRISES ***/ 
-  // SAMPLE CODE TO TEST LIBRARY REVISIONS
-  // Create sample shapes
+  // Sample code to test all the available tkr chars
   //tkr.setMessage(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~");
 
   // Register the tkr object to the global namespace

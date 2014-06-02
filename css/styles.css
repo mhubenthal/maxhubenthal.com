@@ -1,9 +1,9 @@
-#tkr_canvas {
+#tkr_canvas{
   padding-top: 200px;
   padding-left: 120px;
 }
 
-#content {
+#content{
   color: grey;
   font-size: 1em;
   font-family: helvetica;
@@ -11,10 +11,22 @@
   padding-top: 20px;
 }
 
-a:visited {
+#messageText{
+  width: 370px;
+}
+
+#messageColor{
+  width: 50px;
+}
+
+#messageInterval{
+  width: 50px;
+}
+
+a:visited{
   color: blue;
 }
 
-a:hover {
+a:hover{
   color: orange;
 }

@@ -6,11 +6,38 @@
 </head>
 <body>
   <canvas id="tkr_canvas"></canvas>
-  <div id="content">++ ticker.js source available at <a href="https://github.com/mhubenthal/ticker">Github</a> ++</div>
+  <div id="content">
+    <br>
+    Message: <input type="text" id="messageText" value="++ ticker.js = a simple javascript ticker ++ full site coming soon ++">
+    <br>
+    Text color: <input type="text" id="messageColor" value="blue">
+    <br>
+    Message speed(ms): <input type="text" id="messageInterval" value="60">
+    <br>
+<button onclick="updateValues()">Update ticker</button>
+    <br>
+    <br>
+    <br>
+    ++ ticker.js source available at <a href="https://github.com/mhubenthal/ticker">Github</a> ++
+  </div>
   <script type="text/javascript" src="js/ticker.js"></script>
   <script type="text/javascript">
     tkr.setMessage("++ ticker.js = a simple javascript ticker ++ full site coming soon ++");
+    tkr.setMessageColor("blue");
     tkr.playForward();
+    function updateValues(){
+      var newMessageText = document.getElementById("messageText").value;
+      var newMessageColor = document.getElementById("messageColor").value;
+      var newInterval = document.getElementById("messageInterval").value
+      tkr.setMessage(newMessageText);
+      tkr.setMessageColor(newMessageColor);
+      // Change tkr speed only if different than default 80ms
+      if(newInterval != 60){
+        tkr.setMessageInterval(newInterval);
+        tkr.pause();
+        tkr.playForward();
+      }
+    }
   </script>
 </body>
 <html>
