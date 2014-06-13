@@ -12,9 +12,10 @@
     ga('send', 'pageview');
   </script>
 </head>
-<body>
-  <canvas id="tkr_canvas"></canvas>
-  <div id="content">
+<body id="content">
+  <section id="tickerExample">
+    <h1>+ Ticker.js +</h1>
+    <canvas id="tkr_canvas">Sorry! Your browser does not support the canvas tag.</canvas>
     <br>
     Message: <input type="text" id="messageText" value="++ ticker.js = a simple javascript ticker ++ full site coming soon ++">
     <br>
@@ -22,12 +23,14 @@
     <br>
     Message Interval(ms): <input type="text" id="messageInterval" value="60">
     <br>
-<button onclick="updateValues()">Update ticker</button>
+    <button onclick="updateValues()">Update ticker</button>
     <br>
     <br>
     <br>
-    ++ ticker.js source available at <a href="https://github.com/mhubenthal/ticker">Github</a> ++
-  </div>
+    <span id="codeFootnote"><em>( ticker.js source available at <a href="https://github.com/mhubenthal/ticker">Github</a> )</em></span>
+    </section>
+    <section id="golExample">
+    </section>
   <script type="text/javascript" src="js/ticker.js"></script>
   <script type="text/javascript">
     tkr.setMessage("++ ticker.js = a simple javascript ticker ++ full site coming soon ++");

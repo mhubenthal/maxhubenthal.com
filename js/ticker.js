@@ -4,7 +4,7 @@
 // Ticker may be freely distributed under the MIT license.
 
 // Wrap the library in an IIFE
-(function(){ 
+(function(window){ 
   // Declare tkr object for use in global namespace
   var tkr = {
       
@@ -145,7 +145,7 @@
     tkr_ctx.clearRect(0,0,tkr_gridWidth,tkr_gridHeight);
     tkr_ctx.lineWidth = tkr_gridLineWidth;
       
-    // Draw vertical grid, start at 0.5 to allo for non-blurry 1px line
+    // Draw vertical grid, start at 0.5 to allow for non-blurry 1px line
     for (var x = 0.5; x <= tkr_gridWidth; x++){
       tkr_ctx.fillStyle = tkr_gridColor;
       tkr_ctx.beginPath();
@@ -156,7 +156,7 @@
       x += tkr_gridUnitSize;
     }
       
-    // Draw horizontal grid, start at 0.5 to allo for non-blurry 1px line
+    // Draw horizontal grid, start at 0.5 to allow for non-blurry 1px line
     for (var y = 0.5; y <= tkr_gridHeight; y++){
       tkr_ctx.fillStyle = tkr_gridColor;
       tkr_ctx.beginPath();
@@ -389,5 +389,5 @@
   //tkr.setMessage(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~");
 
   // Register the tkr object to the global namespace
-  this.tkr = tkr;
-}());
+  window.tkr = tkr;
+}(window));

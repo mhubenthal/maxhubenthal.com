@@ -1,6 +1,5 @@
 #tkr_canvas{
-  padding-top: 200px;
-  padding-left: 120px;
+  padding-bottom: 20px;
 }
 
 #content{
@@ -9,6 +8,10 @@
   font-family: helvetica;
   padding-left: 120px;
   padding-top: 20px;
+}
+
+#codeFootnote{
+  font-size: 1em;
 }
 
 #messageText{
