@@ -188,8 +188,6 @@
     this.genericShape = [[],[]];
     // Declare array of rectangle coordinates
     this.shapeArray = [[],[]];
-    // Overall width of ticker
-    this.reset = tkr_gridWidth;
     // Grid line width
     this.gridLineWidth = tkr_gridLineWidth;
   }
@@ -247,22 +245,6 @@
         tkr_ctx.fillRect(tempX,tempY,tkr_gridUnitSize,tkr_gridUnitSize);
         this.shapeArray[i][0] -= tkr_gridOffset; // Decrement x coordinate position
       }
-    },
-    animateShapeBackwards: function (){
-      for (var i = 0; i < this.shapeArray.length; i++){
-        // Pixel is ready to cycle back to enter right of ticker
-        if (this.shapeArray[i][0] > tkr_gridWidth) {
-          // Reset position to ticker display width
-          this.shapeArray[i][0] = -tkr_charOffset;
-        }
-        var tempX = this.shapeArray[i][0];
-        var tempY = this.shapeArray[i][1];
-          
-        // Draw shape
-        tkr_ctx.fillStyle = tkr_messageColor;
-        tkr_ctx.fillRect(tempX,tempY,tkr_gridUnitSize,tkr_gridUnitSize);
-        this.shapeArray[i][0] += tkr_gridOffset; // Decrement x coordinate position
-      }
     }
   };
 
@@ -271,7 +253,7 @@
     // Make sure tkr_messageShapeArray is empty
     tkr_messageShapeArray = [];
     // Reset the message offset
-    tkr_charOffset = 672;
+    tkr_charOffset = tkr_gridWidth;
     var newShape;
     // Convert chars to tkr_shape objects and add to message array
     for(var i=0;i<newCharArray.length;i++){
@@ -293,11 +275,6 @@
         messageArray[i].animateShapeForward();
     }
   }
-  function tkr_writeMessageBackwards(messageArray){
-    for(var i=0; i<messageArray.length; i++){
-        messageArray[i].animateShapeBackwards();
-    }
-  }
 
   // Internal tkr contol methods
   function tkr_playForward(){ 
@@ -309,18 +286,6 @@
       tkr_IntervalId = setInterval(function(){
         tkr_drawGrid();
         tkr_writeMessageForward(tkr_messageShapeArray);
-      }, tkr_messageInterval);
-    }
-  }
-  function tkr_playReverse(){
-    // If tkr is not already running, start it up, otherwise do nothing
-    if(!tkr_isReversed){
-      clearInterval(tkr_IntervalId);  // Clear any previously running tkr
-      tkr_isReversed = true;
-      tkr_isForward = false;
-      tkr_IntervalId = setInterval(function(){
-        tkr_drawGrid();
-        tkr_writeMessageBackwards(tkr_messageShapeArray);
       }, tkr_messageInterval);
     }
   }
@@ -378,16 +343,10 @@
   tkr.pause = function(){
     tkr_pause();
   };
-  // tkr.playReverse function is buggy, use/improve at your own peril!
-  /*
-  tkr.playReverse = function(){
-    tkr_playReverse();
-  };
-  */
 
   // Sample code to test all the available tkr chars
   //tkr.setMessage(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~");
 
-  // Register the tkr object to the global namespace
+  // Register the tkr object to the global browser namespace
   window.tkr = tkr;
 }(window));
