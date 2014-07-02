@@ -29,7 +29,7 @@
   var tkr_message = [], tkr_messageShapeArray = [], tkr_messageColor, tkr_gridOffset = tkr_gridUnitSize + tkr_gridLineWidth, tkr_charOffset = 672, tkr_messageInterval = 60;
     
   // Default tkr run status values
-  var tkr_IntervalId, tkr_isPaused = false, tkr_isForward = false, tkr_isReversed = false;
+  var tkr_IntervalId, tkr_isPaused = false, tkr_isForward = false;
     
   // JSON object of tkr char shapes for UTF-8 codes
   //  in decimal from 32 to 126.
@@ -282,7 +282,6 @@
     if(!tkr_isForward){
       clearInterval(tkr_IntervalId);  // Clear any previously running tkr
       tkr_isForward = true;
-      tkr_isReversed = false;
       tkr_IntervalId = setInterval(function(){
         tkr_drawGrid();
         tkr_writeMessageForward(tkr_messageShapeArray);
@@ -294,7 +293,6 @@
     clearInterval(tkr_IntervalId);
     tkr_isPaused = true;
     tkr_isForward = false;
-    tkr_isReversed = false;
   }
 
   /////////////////////////////////////////////
