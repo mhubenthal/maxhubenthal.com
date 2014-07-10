@@ -14,40 +14,79 @@
 </head>
 <body id="content">
   <section id="tickerExample">
-    <h1>+ Ticker.js +</h1>
+    <h1><i>+ Ticker.js +</i></h1>
     <canvas id="tkr_canvas">Sorry! Your browser does not support the canvas tag.</canvas>
     <br>
     Message: <input type="text" id="messageText" value="++ ticker.js = a simple javascript ticker ++ full site coming soon ++">
     <br>
     Text color: <input type="text" id="messageColor" value="red">
     <br>
-    Message Interval(ms): <input type="text" id="messageInterval" value="60">
+    Message interval(ms): <input type="text" id="messageInterval" value="60">
     <br>
-    <button onclick="updateValues()">Update ticker</button>
+    <button onclick="updateTkrValues()">Update ticker</button>
     <br>
     <br>
     <br>
     <span id="codeFootnote"><em>( ticker.js source available at <a href="https://github.com/mhubenthal/ticker">Github</a> )</em></span>
-    </section>
-    <section id="golExample">
-    </section>
+    <br>
+    <br>
+  </section>
+  <section id="golExample">
+    <h1><i>+ Gol.js +</i></h1>
+    <p>Conway's Game of Life implemented in Javascript. Read more about the Game of Life <a href="http://en.wikipedia.org/wiki/Conways_Game_of_Life" target="_blank">here</a>. Experiment away!</p>
+    <canvas id="gol_canvas">Sorry! Your browser does not support the canvas tag.</canvas>
+    <br>
+    <button onclick="gol.playLife()">Play</button>
+    <button onclick="gol.pauseLife()">Pause</button>
+    <button onclick="gol.clearLife()">Clear</button>
+    <button onclick="gol.setSampleBoard()">Get random group</button>
+    <br>
+    <br>
+    Grid color: <input type="text" id="golGridColor" value="grey">
+    <br>
+    Cell color: <input type="text" id="golCellColor" value="yellow">
+    <br>
+    Speed of life(ms): <input type="text" id="golInterval" value="250">
+    <br>
+    <button onclick="updateGolValues()">Update gol</button>
+    <br>
+    <br>
+    <br>
+    <span id="codeFootnote"><em>( gol.js source available at <a href="https://github.com/mhubenthal/gol">Github</a> )</em></span>
+  </section>
   <script type="text/javascript" src="js/ticker.js"></script>
+  <script type="text/javascript" src="js/gol.js"></script>
   <script type="text/javascript">
+    // Set up the tkr object
     tkr.setMessage("++ ticker.js = a simple javascript ticker ++ full site coming soon ++");
     tkr.setMessageColor("red");
     tkr.playForward();
-    function updateValues(){
-      var newMessageText = document.getElementById("messageText").value;
-      var newMessageColor = document.getElementById("messageColor").value;
-      var newInterval = document.getElementById("messageInterval").value
-      tkr.setMessage(newMessageText);
-      tkr.setMessageColor(newMessageColor);
+    function updateTkrValues(){
+      var newTkrMessageText = document.getElementById("messageText").value;
+      var newTkrMessageColor = document.getElementById("messageColor").value;
+      var newTkrInterval = document.getElementById("messageInterval").value
+      tkr.setMessage(newTkrMessageText);
+      tkr.setMessageColor(newTkrMessageColor);
       // Change tkr speed only if different than default 60ms
       if(newInterval != 60){
-        tkr.setMessageInterval(newInterval);
+        tkr.setMessageInterval(newTkrInterval);
         tkr.pause();
         tkr.playForward();
       }
+    }
+    // Set up the gol object
+    gol.setupLife();
+    gol.setGridColor("grey");
+    gol.setCellColor("yellow");
+    // Populate the board with a random game of life
+    gol.setSampleBoard();
+    function updateGolValues(){
+      var newGolGridColor = document.getElementById("golGridColor").value;
+      var newGolCellColor = document.getElementById("golCellColor").value;
+      var newGolInterval = document.getElementById("golInterval").value;
+      gol.setGridColor(newGolGridColor);
+      gol.setCellColor(newGolCellColor);
+      gol.setLifeSpeed(newGolInterval);
     }
   </script>
 </body>
