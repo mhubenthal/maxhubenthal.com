@@ -420,8 +420,7 @@
   gol.setSampleBoard = function(){
     gol_pauseLife();
     gol_clearLife(gol_lifeBoard1);
-    gol_clearLife(gol_lifeBoard2); 
-    gol_drawLife();
+    gol_clearLife(gol_lifeBoard2);  
     // Get a random value of 1 or 0
     function getRandomCell() {
       return Math.floor(Math.random() * 2);
@@ -429,7 +428,7 @@
     if(gol_board1isCurrent){
       for(var yPos=10;yPos<20;yPos++){
         gol_lifeBoard1[yPos] = [];
-        for(var xPos=15;xPos<45;xPos++){
+        for(var xPos=25;xPos<35;xPos++){
           gol_lifeBoard1[yPos][xPos] = getRandomCell();
         }
       }
@@ -437,7 +436,7 @@
     if(!gol_board1isCurrent){
       for(var yPos=10;yPos<20;yPos++){
         gol_lifeBoard2[yPos] = [];
-        for(var xPos=15;xPos<45;xPos++){
+        for(var xPos=25;xPos<35;xPos++){
           gol_lifeBoard2[yPos][xPos] = getRandomCell();
         }
       }  
