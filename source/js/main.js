@@ -34,4 +34,13 @@
       gol.setCellColor(newGolCellColor);
       gol.setLifeSpeed(newGolInterval);
     };
+    // Set up the gol2 object
+    gol2.setupLife();
+    // Populate the board with a random game of life
+    gol2.setSampleBoard();
+    // Allow gol to be updated
+    window.updateGol2Values = function (){
+      var newGol2Interval = document.getElementById("gol2Interval").value;
+      gol2.setLifeSpeed(newGol2Interval);
+    };
 }(window));

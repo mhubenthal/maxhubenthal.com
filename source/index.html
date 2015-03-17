@@ -55,6 +55,26 @@
     <br>
     <span id="codeFootnote"><em>( gol.js source available at <a href="https://github.com/mhubenthal/gol">Github</a> )</em></span>
   </section>
+  <section id="gol2Example">
+    <h1><i>+ Gol-2.js +</i></h1>
+    <p>Conway's Game of Life implemented in Javascript; with enhancements.</p>
+    <p><i>(Note: press "Pause" or "Clear" before trying to select cells with the cursor.)</i></p>
+    <canvas id="gol2_canvas">Sorry! Your browser does not support the canvas tag.</canvas>
+    <br>
+    <button onclick="gol2.playLife()">Play</button>
+    <button onclick="gol2.pauseLife()">Pause</button>
+    <button onclick="gol2.clearLife()">Clear</button>
+    <button onclick="gol2.setSampleBoard()">Get random group</button>
+    <br>
+    <br>
+    Speed of life(ms): <input type="text" id="gol2Interval" value="250">
+    <br>
+    <button onclick="updateGol2Values()">Update gol</button>
+    <br>
+    <br>
+    <br>
+    <span id="codeFootnote"><em>( gol-2.js source available at <a href="https://github.com/mhubenthal/gol-2">Github</a> )</em></span>
+  </section>
   <script type="text/javascript" src="js/app.js"></script>
 </body>
 <html>

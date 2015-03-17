@@ -3,14 +3,14 @@ var gulp = require('gulp'),
   plugins = gulpLoadPlugins();
 
 gulp.task('js',function(){
-  gulp.src(['source/js/gol.js','source/js/ticker.js','source/js/main.js'])
-   	.pipe(plugins.watch('source/js/*.js')) 
+  gulp.src(['source/js/gol.js','source/js/gol-2.js','source/js/ticker.js','source/js/main.js'])
+//   	.pipe(plugins.watch('source/js/*.js')) 
 		.pipe(plugins.jshint())
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.concat('app.js'))
 	  .pipe(plugins.uglify())
 		.pipe(gulp.dest('build/js'))
-		.pipe(plugins.connect.reload());
+//		.pipe(plugins.connect.reload());
 });
 
 gulp.task('css',function(){
@@ -35,4 +35,4 @@ gulp.task('connect',function(){
 	});
 });
 
-gulp.task('default',['connect','html','css','js']); 
+gulp.task('default',['connect','css','js','html']); 
