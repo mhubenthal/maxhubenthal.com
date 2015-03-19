@@ -4,13 +4,13 @@ var gulp = require('gulp'),
 
 gulp.task('js',function(){
   gulp.src(['source/js/gol.js','source/js/gol-2.js','source/js/ticker.js','source/js/main.js'])
-//   	.pipe(plugins.watch('source/js/*.js')) 
+  //	.pipe(plugins.watch('source/js/*.js')) 
 		.pipe(plugins.jshint())
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.concat('app.js'))
 	  .pipe(plugins.uglify())
 		.pipe(gulp.dest('build/js'))
-//		.pipe(plugins.connect.reload());
+	//	.pipe(plugins.connect.reload());
 });
 
 gulp.task('css',function(){

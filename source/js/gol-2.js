@@ -30,6 +30,8 @@
   // Set default gol2 board and cell sizes and colors, and interval for speed of life
   // (Grid lines are drawn at 1px wide)
   var gol2_backgroundColor = "rgb(0,0,0)", gol2_backgroundWidth, gol2_backgroundHeight, gol2_boardCellHeight = 30, gol2_boardCellWidth = 60, gol2_cellSize = 10, gol2_cellColor = "rgb(255,255,255)", gol2_lifeSpeed = 250, gol2_intervalId;
+  
+
   // Set offset values for gol2 origin
   var gol2_originX = 0, gol2_originY = 0;
   // Set default canvas size
@@ -70,12 +72,12 @@
         y=0;
         for(var yPos=1;yPos<gol2_backgroundHeight;yPos+=(gol2_cellSize+1)){
           // Dead cell
-          if(gol2_lifeBoard1[y][x] === 0){
+          if(gol2_lifeBoard1[y][x].state === 0){
             gol2_ctx.fillStyle = gol2_cellColor;
             gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
           } 
           // Else live cell
-          if(gol2_lifeBoard1[y][x] === 1){
+          if(gol2_lifeBoard1[y][x].state === 1){
             gol2_ctx.fillStyle = gol2_backgroundColor;
             gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
           }
@@ -90,12 +92,12 @@
         y=0;
         for(yPos=1;yPos<gol2_backgroundHeight;yPos+=(gol2_cellSize+1)){
           // Dead cell
-          if(gol2_lifeBoard2[y][x] === 0){
+          if(gol2_lifeBoard2[y][x].state === 0){
             gol2_ctx.fillStyle = gol2_cellColor;
             gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
           } 
           // Else live cell
-          if(gol2_lifeBoard2[y][x] === 1){
+          if(gol2_lifeBoard2[y][x].state === 1){
             gol2_ctx.fillStyle = gol2_backgroundColor;
             gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
           }
@@ -117,7 +119,7 @@
     for(var yPos=0;yPos<gol2_boardCellHeight;yPos++){
       boardToClear[yPos] = [];
       for(var xPos=0;xPos<gol2_boardCellWidth;xPos++){
-        boardToClear[yPos][xPos] = 0;
+        boardToClear[yPos][xPos] = {state: 0};
       }
     }
   }
@@ -128,97 +130,97 @@
     // Check north
     function checkNorth(){
       if(y===0){
-        liveNabes += array.slice(y-1)[0][x];
+        liveNabes += array.slice(y-1)[0][x].state;
       }
       if(y!==0){
-        liveNabes += array.slice(y-1,y)[0][x];
+        liveNabes += array.slice(y-1,y)[0][x].state;
       } 
     }
     // Check south
     function checkSouth(){
       if(y===array.length-1){
-        liveNabes += array.slice(0,1)[0][x];
+        liveNabes += array.slice(0,1)[0][x].state;
       }
       if(y!==array.length-1){
-        liveNabes += array.slice(y+1,y+2)[0][x];
+        liveNabes += array.slice(y+1,y+2)[0][x].state;
       }
     } 
     // Check west
     function checkWest(){
       if(x===0){
-        liveNabes += array[y][array[0].length-1];
+        liveNabes += array[y][array[0].length-1].state;
       }
       if(x!==0){
-        liveNabes += array[y][x-1];
+        liveNabes += array[y][x-1].state;
       } 
     } 
     // Check east
     function checkEast(){
       if(x===array[0].length-1){
-        liveNabes += array[y][0];
+        liveNabes += array[y][0].state;
       }
       if(x!==array[0].length-1){
-        liveNabes += array[y][x+1];
+        liveNabes += array[y][x+1].state;
       }  
     }
     // Check northwest
     function checkNorthwest(){
       if(y===0 && x!==0){
-        liveNabes += array.slice(y-1)[0][x-1];
+        liveNabes += array.slice(y-1)[0][x-1].state;
       }
       if(y!==0 && x!==0){
-        liveNabes += array[y-1][x-1];
+        liveNabes += array[y-1][x-1].state;
       } 
       if(y===0 && x===0){
-        liveNabes += array[array.length-1][array[0].length-1];
+        liveNabes += array[array.length-1][array[0].length-1].state;
       }
       if(y!==0 && x===0){
-        liveNabes += array[y-1][array[0].length-1];
+        liveNabes += array[y-1][array[0].length-1].state;
       } 
     }
     // Check northeast
     function checkNortheast(){
       if(y===0 && x!==array[0].length-1){
-        liveNabes += array[array.length-1][x+1];
+        liveNabes += array[array.length-1][x+1].state;
       }
       if(y!==0 && x!==array[0].length-1){
-        liveNabes += array[y-1][x+1];
+        liveNabes += array[y-1][x+1].state;
       } 
       if(y===0 && x===array[0].length-1){
-        liveNabes += array[array.length-1][0];
+        liveNabes += array[array.length-1][0].state;
       }
       if(y!==0 && x===array[0].length-1){
-        liveNabes += array[y-1][0];
+        liveNabes += array[y-1][0].state;
       } 
     }
     // Check southwest
     function checkSouthwest(){
       if(y!==array.length-1 && x!==0){
-        liveNabes += array[y+1][x-1];
+        liveNabes += array[y+1][x-1].state;
       }
       if(y!==array.length-1 && x===0){
-        liveNabes += array[y+1][array[0].length-1];
+        liveNabes += array[y+1][array[0].length-1].state;
       } 
       if(y===array.length-1 && x===array[0].length-1){
-        liveNabes += array[0][array[0].length-1];
+        liveNabes += array[0][array[0].length-1].state;
       }
       if(y===array.length-1 && x!==0){
-        liveNabes += array[0][x-1];
+        liveNabes += array[0][x-1].state;
       }
     }
     // Check southeast
     function checkSoutheast(){
       if(y!==array.length-1 && x!==array[0].length-1){
-        liveNabes += array[y+1][x+1];
+        liveNabes += array[y+1][x+1].state;
       }
       if(y!==array.length-1 && x===array[0].length-1){
-        liveNabes += array[y+1][0];
+        liveNabes += array[y+1][0].state;
       }
       if(y===array.length-1 && x===array[0].length-1){
-        liveNabes += array[0][0];
+        liveNabes += array[0][0].state;
       }
       if(y===array.length-1 && x!==array[0].length-1){
-        liveNabes += array[0][x+1];
+        liveNabes += array[0][x+1].state;
       }
     }
     // Check cardinal directions
@@ -237,21 +239,21 @@
   // based on number of neighbors.
   function gol2_setNextGen(currentBoard,nextBoard,n,y,x){
     // Check if current cell is live
-    if(currentBoard[y][x]===1){
+    if(currentBoard[y][x].state===1){
       if((n>3)||(n<2)){
-        nextBoard[y][x] = 0; // Set next board to dead cell
+        nextBoard[y][x].state = 0; // Set next board to dead cell
       }
       if((n===3)||(n===2)){
-        nextBoard[y][x] = 1; // Set next board to live cell
+        nextBoard[y][x].state = 1; // Set next board to live cell
       }
     }
     // Else cell is dead
-    if(currentBoard[y][x]===0){
+    if(currentBoard[y][x].state===0){
       if(n===3){
-        nextBoard[y][x] = 1; // Set next board to live cell
+        nextBoard[y][x].state = 1; // Set next board to live cell
       }
       if(n!==3){
-        nextBoard[y][x] = 0; // Set next board to dead cell
+        nextBoard[y][x].state = 0; // Set next board to dead cell
       }
     }
   }
@@ -333,16 +335,16 @@
     var rowY = Math.floor(y/(gol2_cellSize+1));
     if(y<(gol2_cellSize+2)){rowY=0;}
     // Change selected cell to live
-    if(currentBoard[rowY][colX] === 0){
+    if(currentBoard[rowY][colX].state === 0){
       gol2_ctx.fillStyle = gol2_backgroundColor;
       gol2_ctx.fillRect(adjX,adjY,gol2_cellSize,gol2_cellSize);
-      currentBoard[rowY][colX] = 1;
+      currentBoard[rowY][colX].state = 1;
     }
     // Change selected cell to dead
     else {
       gol2_ctx.fillStyle = gol2_cellColor;
       gol2_ctx.fillRect(adjX,adjY,gol2_cellSize,gol2_cellSize);
-      currentBoard[rowY][colX] = 0;
+      currentBoard[rowY][colX].state = 0;
     }
   }
 
@@ -377,22 +379,6 @@
     gol2_drawLife();
     gol2_canvas.addEventListener("mousedown", gol2_getPosition, false);
   };
-
-  // Customize gol2
-  // Note: setSize method still needs to be implemented
-  // Set board width, height
-  /*
-  gol2.setSize = function(newCellWidth, newCellHeight){
-    //gol2_pauseLife();
-    gol2_boardCellWidth = newCellWidth;
-    gol2_boardCellHeight = newCellHeight;
-    gol2_backgroundWidth = ((gol2_boardCellWidth*gol2_cellSize)+gol2_boardCellWidth+1);
-    gol2_backgroundHeight = ((gol2_boardCellHeight*gol2_cellSize)+gol2_boardCellHeight+1);
-    gol2_clearLife(gol2_lifeBoard1);
-    gol2_clearLife(gol2_lifeBoard2);
-    gol2_drawLife(); 
-  }
-  */
   // Change interval in ms of lifecycles
   gol2.setLifeSpeed = function(newLifeSpeed){
     gol2_lifeSpeed = newLifeSpeed;
@@ -412,17 +398,15 @@
     }
     if(gol2_board1isCurrent){
       for(var yPos=10;yPos<20;yPos++){
-        gol2_lifeBoard1[yPos] = [];
         for(var xPos=25;xPos<35;xPos++){
-          gol2_lifeBoard1[yPos][xPos] = getRandomCell();
+          gol2_lifeBoard1[yPos][xPos] = {state: getRandomCell()};
         }
       }
     }
     if(!gol2_board1isCurrent){
       for(var yPos=10;yPos<20;yPos++){
-        gol2_lifeBoard2[yPos] = [];
         for(var xPos=25;xPos<35;xPos++){
-          gol2_lifeBoard2[yPos][xPos] = getRandomCell();
+          gol2_lifeBoard2[yPos][xPos] = {state: getRandomCell()};
         }
       }  
     }
