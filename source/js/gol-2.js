@@ -29,10 +29,10 @@
   var gol2_board1isCurrent = true;
   // Set default gol2 board and cell sizes and colors, and interval for speed of life
   // (Grid lines are drawn at 1px wide)
-  var gol2_backgroundColor = "rgb(0,0,0)", gol2_backgroundWidth, gol2_backgroundHeight, gol2_boardCellHeight = 30, gol2_boardCellWidth = 60, gol2_cellSize = 10, gol2_cellColor = "rgb(255,255,255)", gol2_lifeSpeed = 250, gol2_intervalId;
+  var gol2_backgroundColor = "rgb(51,0,0)", gol2_backgroundWidth, gol2_backgroundHeight, gol2_boardCellHeight = 30, gol2_boardCellWidth = 60, gol2_cellSize = 10, gol2_cellColor = "rgb(255,255,255)", gol2_lifeSpeed = 250, gol2_intervalId;
   
   // Array of colors, assigned depending on cell's state: [dead, alive 1, alive 2, alive 3, alive 4, alive 5, recently dead]
-  var gol2_stateColors = ["rgb(255,255,255)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(0,0,0)","rgb(255,255,255)"];
+  var gol2_stateColors = ["rgb(255,255,255)","rgb(255,204,204)","rgb(255,102,102)","rgb(255,0,0)","rgb(153,0,0)","rgb(51,0,0)","rgb(153,255,255)"];
 
   // Set offset values for gol2 origin
   var gol2_originX = 0, gol2_originY = 0;
@@ -74,7 +74,7 @@
         y=0;
         for(var yPos=1;yPos<gol2_backgroundHeight;yPos+=(gol2_cellSize+1)){
           // Fill cell based on state of cell
-          gol2_ctx.fillStyle = gol2_stateColors[gol2_lifeBoard1[yPos][xPos].state];
+          gol2_ctx.fillStyle = gol2_stateColors[gol2_lifeBoard1[y][x].state];
           gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
           y++;
         }
@@ -87,7 +87,7 @@
         y=0;
         for(yPos=1;yPos<gol2_backgroundHeight;yPos+=(gol2_cellSize+1)){
           // Fill cell based on state of cell
-          gol2_ctx.fillStyle = gol2_stateColors[gol2_lifeBoard2[yPos][xPos].state];
+          gol2_ctx.fillStyle = gol2_stateColors[gol2_lifeBoard2[y][x].state];
           gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
           y++;
         }
@@ -115,100 +115,104 @@
   // Get number of live neighbors, looking at the grid as a toroidal sphere
   function gol2_getNeighborCount(array,y,x){
     var liveNabes = 0;
+    function convertState(stateValue){
+      // Convert state value to 1 or 0
+      return (stateValue === 0 || stateValue === 6) ? 0 : 1;
+    }
     // Check north
     function checkNorth(){
       if(y===0){
-        liveNabes += Math.min(1,array.slice(y-1)[0][x].state);
+        liveNabes += convertState(array.slice(y-1)[0][x].state);
       }
       if(y!==0){
-        liveNabes += Math.min(1,array.slice(y-1,y)[0][x].state);
+        liveNabes += convertState(array.slice(y-1,y)[0][x].state);
       } 
     }
     // Check south
     function checkSouth(){
       if(y===array.length-1){
-        liveNabes += Math.min(1,array.slice(0,1)[0][x].state);
+        liveNabes += convertState(array.slice(0,1)[0][x].state);
       }
       if(y!==array.length-1){
-        liveNabes += Math.min(1,array.slice(y+1,y+2)[0][x].state);
+        liveNabes += convertState(array.slice(y+1,y+2)[0][x].state);
       }
     } 
     // Check west
     function checkWest(){
       if(x===0){
-        liveNabes += Math.min(1,array[y][array[0].length-1].state);
+        liveNabes += convertState(array[y][array[0].length-1].state);
       }
       if(x!==0){
-        liveNabes += Math.min(1,array[y][x-1].state);
+        liveNabes += convertState(array[y][x-1].state);
       } 
     } 
     // Check east
     function checkEast(){
       if(x===array[0].length-1){
-        liveNabes += Math.min(1,array[y][0].state);
+        liveNabes += convertState(array[y][0].state);
       }
       if(x!==array[0].length-1){
-        liveNabes += Math.min(1,array[y][x+1].state);
+        liveNabes += convertState(array[y][x+1].state);
       }  
     }
     // Check northwest
     function checkNorthwest(){
       if(y===0 && x!==0){
-        liveNabes += Math.min(1,array.slice(y-1)[0][x-1].state);
+        liveNabes += convertState(array.slice(y-1)[0][x-1].state);
       }
       if(y!==0 && x!==0){
-        liveNabes += Math.min(1,array[y-1][x-1].state);
+        liveNabes += convertState(array[y-1][x-1].state);
       } 
       if(y===0 && x===0){
-        liveNabes += Math.min(1,array[array.length-1][array[0].length-1].state);
+        liveNabes += convertState(array[array.length-1][array[0].length-1].state);
       }
       if(y!==0 && x===0){
-        liveNabes += Math.min(1,array[y-1][array[0].length-1].state);
+        liveNabes += convertState(array[y-1][array[0].length-1].state);
       } 
     }
     // Check northeast
     function checkNortheast(){
       if(y===0 && x!==array[0].length-1){
-        liveNabes += Math.min(1,array[array.length-1][x+1].state);
+        liveNabes += convertState(array[array.length-1][x+1].state);
       }
       if(y!==0 && x!==array[0].length-1){
-        liveNabes += Math.min(1,array[y-1][x+1].state);
+        liveNabes += convertState(array[y-1][x+1].state);
       } 
       if(y===0 && x===array[0].length-1){
-        liveNabes += Math.min(1,array[array.length-1][0].state);
+        liveNabes += convertState(array[array.length-1][0].state);
       }
       if(y!==0 && x===array[0].length-1){
-        liveNabes += Math.min(1,array[y-1][0].state);
+        liveNabes += convertState(array[y-1][0].state);
       } 
     }
     // Check southwest
     function checkSouthwest(){
       if(y!==array.length-1 && x!==0){
-        liveNabes += Math.min(1,array[y+1][x-1].state);
+        liveNabes += convertState(array[y+1][x-1].state);
       }
       if(y!==array.length-1 && x===0){
-        liveNabes += Math.min(1,array[y+1][array[0].length-1].state);
+        liveNabes += convertState(array[y+1][array[0].length-1].state);
       } 
       if(y===array.length-1 && x===array[0].length-1){
-        liveNabes += Math.min(1,array[0][array[0].length-1].state);
+        liveNabes += convertState(array[0][array[0].length-1].state);
       }
       if(y===array.length-1 && x!==0){
-        liveNabes += Math.min(1,array[0][x-1].state);
+        liveNabes += convertState(array[0][x-1].state);
       }
     }
     // Check southeast
     function checkSoutheast(){
       if(y!==array.length-1 && x!==array[0].length-1){
-        liveNabes += Math.min(1,array[y+1][x+1].state);
+        liveNabes += convertState(array[y+1][x+1].state);
       }
       if(y!==array.length-1 && x===array[0].length-1){
-        liveNabes += Math.min(1,array[y+1][0].state);
+        liveNabes += convertState(array[y+1][0].state);
       }
       if(y===array.length-1 && x===array[0].length-1){
-        liveNabes += Math.min(1,array[0][0].state);
+        liveNabes += convertState(array[0][0].state);
       }
       if(y===array.length-1 && x!==array[0].length-1){
-        liveNabes += Math.min(1,array[0][x+1].state);
+        liveNabes += convertState(array[0][x+1].state);
       }
     }
     // Check cardinal directions
@@ -329,9 +333,9 @@
     if(x<(gol2_cellSize+2)){colX=0;}
     var rowY = Math.floor(y/(gol2_cellSize+1));
     if(y<(gol2_cellSize+2)){rowY=0;}
-    // Change selected cell to live
+    // Change selected cell to live state 1 color
     if(currentBoard[rowY][colX].state === 0){
-      gol2_ctx.fillStyle = gol2_backgroundColor;
+      gol2_ctx.fillStyle = gol2_stateColors[1];
       gol2_ctx.fillRect(adjX,adjY,gol2_cellSize,gol2_cellSize);
       currentBoard[rowY][colX].state = 1;
     }
