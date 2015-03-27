@@ -4,7 +4,7 @@ var gulp = require('gulp'),
   plugins = gulpLoadPlugins();
 
 gulp.task('js',function(){
-  gulp.src(['source/js/gol.js','source/js/gol-2.js','source/js/ticker.js','source/js/main.js'])
+  gulp.src(['source/js/gol/gol.js','source/js/gol-2/gol-2.js','source/js/ticker/ticker.js','source/js/main.js'])
   //	.pipe(plugins.watch('source/js/*.js')) 
 		.pipe(plugins.jshint())
 		.pipe(plugins.jshint.reporter('default'))
