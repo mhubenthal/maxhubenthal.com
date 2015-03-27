@@ -9,7 +9,7 @@ gulp.task('js',function(){
 		.pipe(plugins.jshint())
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.concat('app.js'))
-	  //.pipe(plugins.uglify())
+	  .pipe(plugins.uglify())
 		.pipe(gulp.dest('build/js'))
 	//	.pipe(plugins.connect.reload());
 });
