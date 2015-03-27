@@ -22,6 +22,18 @@
   var gol2_canvas = document.getElementById("gol2_canvas");
   var gol2_ctx = gol2_canvas.getContext('2d');   
 
+  // Assign color to cell states
+  var state0 = "rgb(255,255,255)"; // Dead cell
+  var state1 = "rgb(255,204,204)"; // Cell alive one cycle
+  var state2 = "rgb(255,102,102)"; // Cell alive two cycles
+  var state3 = "rgb(255,0,0)"; // Cell alive three cycles
+  var state4 = "rgb(153,0,0)"; // Cell alive four cycles
+  var state5 = "rgb(51,0,0)"; // Cell alive five or more cycles
+  var state6 = "rgb(153,255,255)"; // Cell recently dead
+
+  // Array of colors, assigned depending on cell's state: [dead, alive 1, alive 2, alive 3, alive 4, alive 5, recently dead]
+  var gol2_stateColors = [state0,state1,state2,state3,state4,state5,state6];
+
   // Use two boards, one for current gol2, one to hold next gol2
   var gol2_lifeBoard1 = [], gol2_lifeBoard2 = [];
     
@@ -29,10 +41,7 @@
   var gol2_board1isCurrent = true;
   // Set default gol2 board and cell sizes and colors, and interval for speed of life
   // (Grid lines are drawn at 1px wide)
-  var gol2_backgroundColor = "rgb(51,0,0)", gol2_backgroundWidth, gol2_backgroundHeight, gol2_boardCellHeight = 30, gol2_boardCellWidth = 60, gol2_cellSize = 10, gol2_cellColor = "rgb(255,255,255)", gol2_lifeSpeed = 250, gol2_intervalId;
-  
-  // Array of colors, assigned depending on cell's state: [dead, alive 1, alive 2, alive 3, alive 4, alive 5, recently dead]
-  var gol2_stateColors = ["rgb(255,255,255)","rgb(255,204,204)","rgb(255,102,102)","rgb(255,0,0)","rgb(153,0,0)","rgb(51,0,0)","rgb(153,255,255)"];
+  var gol2_backgroundColor = state5, gol2_backgroundWidth, gol2_backgroundHeight, gol2_boardCellHeight = 30, gol2_boardCellWidth = 60, gol2_cellSize = 10, gol2_cellColor = state0, gol2_lifeSpeed = 250, gol2_intervalId;
 
   // Set offset values for gol2 origin
   var gol2_originX = 0, gol2_originY = 0;
@@ -68,11 +77,12 @@
   // Draw current board of life
   function gol2_drawLife(){
     var x=0, y=0;
+    var xPos = 1, yPos = 1;
     // Use board1 if current
     if(gol2_board1isCurrent){
-      for(var xPos=1;xPos<gol2_backgroundWidth;xPos+=(gol2_cellSize+1)){
+      for(xPos=1;xPos<gol2_backgroundWidth;xPos+=(gol2_cellSize+1)){
         y=0;
-        for(var yPos=1;yPos<gol2_backgroundHeight;yPos+=(gol2_cellSize+1)){
+        for(yPos=1;yPos<gol2_backgroundHeight;yPos+=(gol2_cellSize+1)){
           // Fill cell based on state of cell
           gol2_ctx.fillStyle = gol2_stateColors[gol2_lifeBoard1[y][x].state];
           gol2_ctx.fillRect(xPos,yPos,gol2_cellSize,gol2_cellSize);
@@ -237,8 +247,8 @@
       }
       if((n===3)||(n===2)){
         // Cell has not reached limit
-        if(nextBoard[y][x].state < 5){
-          nextBoard[y][x].state += 1;
+        if(currentBoard[y][x].state < 5){
+          nextBoard[y][x].state = ++currentBoard[y][x].state;
         }
         // Cell has reached limit
         else{
@@ -267,11 +277,12 @@
   function gol2_checkBoard(){
     // N holds number of live neighbors of current cell
     var n = 0;
+    var xPos = 0, yPos = 0;
     // Check which board is current
     // Board 1 is current
     if(gol2_board1isCurrent){
-      for(var xPos=0;xPos<gol2_boardCellWidth;xPos++){
-        for(var yPos=0;yPos<gol2_boardCellHeight;yPos++){
+      for(xPos=0;xPos<gol2_boardCellWidth;xPos++){
+        for(yPos=0;yPos<gol2_boardCellHeight;yPos++){
           n = 0;
           n = gol2_getNeighborCount(gol2_lifeBoard1, yPos, xPos);
           gol2_setNextGen(gol2_lifeBoard1,gol2_lifeBoard2,n,yPos,xPos);
@@ -390,21 +401,22 @@
   gol2.setSampleBoard = function(){
     gol2_pauseLife();
     gol2_clearLife(gol2_lifeBoard1);
-    gol2_clearLife(gol2_lifeBoard2);  
+    gol2_clearLife(gol2_lifeBoard2); 
+    var xPos = 0, yPos = 0; 
     // Get a random value of 1 or 0
     function getRandomCell() {
       return Math.floor(Math.random() * 2);
     }
     if(gol2_board1isCurrent){
-      for(var yPos=10;yPos<20;yPos++){
-        for(var xPos=25;xPos<35;xPos++){
+      for(yPos=10;yPos<20;yPos++){
+        for(xPos=25;xPos<35;xPos++){
           gol2_lifeBoard1[yPos][xPos] = {state: getRandomCell()};
         }
       }
     }
     if(!gol2_board1isCurrent){
-      for(var yPos=10;yPos<20;yPos++){
-        for(var xPos=25;xPos<35;xPos++){
+      for(yPos=10;yPos<20;yPos++){
+        for(xPos=25;xPos<35;xPos++){
           gol2_lifeBoard2[yPos][xPos] = {state: getRandomCell()};
         }
       }  

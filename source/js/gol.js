@@ -64,11 +64,12 @@
   // Draw current board of life
   function gol_drawLife(){
     var x=0, y=0;
+    var xPos = 1, yPos = 1;
     // Use board1 if current
     if(gol_board1isCurrent){
-      for(var xPos=1;xPos<gol_backgroundWidth;xPos+=(gol_cellSize+1)){
+      for(xPos=1;xPos<gol_backgroundWidth;xPos+=(gol_cellSize+1)){
         y=0;
-        for(var yPos=1;yPos<gol_backgroundHeight;yPos+=(gol_cellSize+1)){
+        for(yPos=1;yPos<gol_backgroundHeight;yPos+=(gol_cellSize+1)){
           // Dead cell
           if(gol_lifeBoard1[y][x] === 0){
             gol_ctx.fillStyle = gol_cellColor;
@@ -266,11 +267,12 @@
   function gol_checkBoard(){
     // N holds number of live neighbors of current cell
     var n = 0;
+    var xPos = 0, yPos = 0;
     // Check which board is current
     // Board 1 is current
     if(gol_board1isCurrent){
-      for(var xPos=0;xPos<gol_boardCellWidth;xPos++){
-        for(var yPos=0;yPos<gol_boardCellHeight;yPos++){
+      for(xPos=0;xPos<gol_boardCellWidth;xPos++){
+        for(yPos=0;yPos<gol_boardCellHeight;yPos++){
           n = 0;
           n = gol_getNeighborCount(gol_lifeBoard1, yPos, xPos);
           gol_setNextGen(gol_lifeBoard1,gol_lifeBoard2,n,yPos,xPos);
@@ -420,23 +422,24 @@
   gol.setSampleBoard = function(){
     gol_pauseLife();
     gol_clearLife(gol_lifeBoard1);
-    gol_clearLife(gol_lifeBoard2);  
+    gol_clearLife(gol_lifeBoard2); 
+    var xPos = 0, yPos = 0; 
     // Get a random value of 1 or 0
     function getRandomCell() {
       return Math.floor(Math.random() * 2);
     }
     if(gol_board1isCurrent){
-      for(var yPos=10;yPos<20;yPos++){
+      for(yPos=10;yPos<20;yPos++){
         gol_lifeBoard1[yPos] = [];
-        for(var xPos=25;xPos<35;xPos++){
+        for(xPos=25;xPos<35;xPos++){
           gol_lifeBoard1[yPos][xPos] = getRandomCell();
         }
       }
     }
     if(!gol_board1isCurrent){
-      for(var yPos=10;yPos<20;yPos++){
+      for(yPos=10;yPos<20;yPos++){
         gol_lifeBoard2[yPos] = [];
-        for(var xPos=25;xPos<35;xPos++){
+        for(xPos=25;xPos<35;xPos++){
           gol_lifeBoard2[yPos][xPos] = getRandomCell();
         }
       }  
