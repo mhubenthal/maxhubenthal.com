@@ -1,0 +1,9 @@
+[submodule "source/js/gol"]
+	path = source/js/gol
+	url = https://github.com/mhubenthal/gol.git
+[submodule "source/js/gol-2"]
+	path = source/js/gol-2
+	url = https://github.com/mhubenthal/gol-2.git
+[submodule "source/js/ticker"]
+	path = source/js/ticker
+	url = https://github.com/mhubenthal/ticker.git
