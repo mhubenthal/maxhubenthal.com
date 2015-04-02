@@ -34,7 +34,8 @@
       gol.setCellColor(newGolCellColor);
       gol.setLifeSpeed(newGolInterval);
     };
-    // Set up the gol2 object
+    // Set up the gol2 object, attach to window for access from index.html buttons
+    window.gol2 = new Gol2('gol2_canvas',{boardWidth: 40, boardHeight: 40});
     gol2.setupLife();
     // Populate the board with a random game of life
     gol2.setSampleBoard();
