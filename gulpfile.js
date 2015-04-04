@@ -35,9 +35,15 @@ gulp.task('connect',function(){
 
 gulp.task('watch',function(){
 	plugins.livereload.listen();
-	gulp.watch('source/less/main.less');
-	gulp.watch('source/*.html');
-	gulp.watch(['source/js/**/*.js','source/js/main.js']);	
+	gulp.watch('source/less/main.less', function(event){
+		gulp.run('less');
+	});
+	gulp.watch('source/*.html', function(event){
+		gulp.run('html');
+	});
+	gulp.watch(['source/js/**/*.js','source/js/main.js'], function(event){
+		gulp.run('js');
+	});	
 })
 
 gulp.task('default',['connect','less','js','html','watch']); 
